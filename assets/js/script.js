@@ -37,6 +37,39 @@ var FillWikiDisplay = function(text){
     wikiDisplay.append(holder);
 }
 
+var UpdateVideoPlayer = function(id){
+    videoPlayer = new YT.Player('player', {
+        height: '390',
+        width: '640',
+        videoId: id,
+        playerVars: {
+          'playsinline': 1
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      })
+}
+
+// 4. The API will call this function when the video player is ready.
+function onPlayerReady(event) {
+    event.target.playVideo();
+  }
+
+  // 5. The API calls this function when the player's state changes.
+  //    The function indicates that when playing a video (state=1),
+  //    the player should play for six seconds and then stop.
+  var done = false;
+  function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING && !done) {
+      setTimeout(stopVideo, 6000);
+      done = true;
+    }
+  }
+  function stopVideo() {
+    player.stopVideo();
+  }
 
 var ButtonClick = function(event){
     event.preventDefault();
@@ -47,8 +80,8 @@ var ButtonClick = function(event){
     function(data){
         var result = data.items[0];
         if(result !== null && result !== undefined){
-            videoPlayer.attr('src','https://youtu.be/embed/'+result.id.videoId);
-            videoPlayer.removeClass('u-display-none');
+            videoPlayer.attr('src','https://youtube.com/embed/'+result.id.videoId+"?origin=*");
+            $(videoPlayer).removeClass('u-display-none');
         }
     })
     Get("https://en.wikipedia.org/w/api.php?&origin=*&action=parse&page="+search+"&format=json", function(data){
@@ -71,4 +104,3 @@ searchBtn.on('click', ButtonClick);
 
 
 var keyword = "Sting";
-
