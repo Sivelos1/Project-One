@@ -10,6 +10,7 @@
     <script type="module" src="https://unpkg.com/@blaze/atoms@12.2.0/dist/blaze-atoms/blaze-atoms.esm.js"></script>
     <script nomodule="" src="https://unpkg.com/@blaze/atoms@12.2.0/dist/blaze-atoms/blaze-atoms.js"></script>
 </head>
+<script src = "https://www.youtube.com/player_api"></script>
 <body>
     <header id="title" class = "o-container o-container--medium u-centered">
         <h1>
@@ -18,20 +19,22 @@
         <h4>Listen to music while you learn about the artist</h4>
     </header>
     <main>
-        <div id="youtube" class="o-container o-container--small u-display-none">
-            <iframe src="https://youtu.be/R-MSfd2S7lo"></iframe>
+        <div id="youtube" class="o-container o-container--small">
+            <iframe id = "video-player"  width="420" height="315" src="https://www.youtube.com/embed/R-MSfd2S7lo" frameborder = "0"></iframe>
         </div>
-        <div id="searchbar" class="c-input-group c-input-group--rounded o-container o-container--medium">
+        <div id="searchbar-holder" class="c-input-group c-input-group--rounded o-container o-container--medium">
             <div class="o-field">
-                <input class="c-field" placeholder="type song or artist name here...">
+                <input id = "searchbar" class="c-field" placeholder="type song or artist name here...">
             </div>
-                <button class="c-button c-button--brand">Search</button>
-        </div>
-        
+                <button id = "search-btn" class="c-button c-button--brand">Search</button>
+            </div>
+
         <div id = "wikipedia" class="o-panel-container" style="height: 350px">
-            <div class="o-panel u-window-box-super">
+            <div id = "wiki-display" class="o-panel u-window-box-super">
             </div>
           </div>
     </main>
 </body>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src = "assets/js/script.js"></script>
 </html>
