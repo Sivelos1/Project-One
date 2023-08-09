@@ -1,3 +1,7 @@
+const keys = {
+    youtube: "AIzaSyBK5m152cl5khgr0pnjdjJ8xebqD2Jo8fc"
+}
+
 
 var videoPlayer = $('#video-player');
 
@@ -38,10 +42,20 @@ var ButtonClick = function(event){
     event.preventDefault();
 
     var search = searchBar.val();
+    videoPlayer.addClass('u-display-none');
+    Get("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q="+keyword+"&type=video&key="+keys.youtube+"", 
+    function(data){
+        var result = data.items[0];
+        if(result !== null && result !== undefined){
+            videoPlayer.attr('src','https://youtu.be/embed/'+result.id.videoId);
+            videoPlayer.removeClass('u-display-none');
+        }
+    })
     Get("https://en.wikipedia.org/w/api.php?&origin=*&action=parse&page="+search+"&format=json", function(data){
         FillWikiDisplay(data.parse.text["*"]);
     },
     function(response, asJson){
+        
         wikiDisplay.empty();
         var holder = $('<p>');
         var errorMessage = 'Error status '+response.status+'';
@@ -54,3 +68,7 @@ var ButtonClick = function(event){
 }
 
 searchBtn.on('click', ButtonClick);
+
+
+var keyword = "Sting";
+
