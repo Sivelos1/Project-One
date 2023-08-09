@@ -47,11 +47,11 @@ var ButtonClick = function(event){
     function(data){
         var result = data.items[0];
         if(result !== null && result !== undefined){
-            videoPlayer.attr('src','https://youtu.be/embed/'+result.id.videoId);
+            videoPlayer.attr('src','https://youtube.com/embed/'+result.id.videoId);
             videoPlayer.removeClass('u-display-none');
         }
     })
-    Get("https://en.wikipedia.org/w/api.php?&origin=*&action=parse&page="+search+"&format=json", function(data){
+    Get("https://en.wikipedia.org/w/api.php?&origin=*&action=parse&page="+search+"&format=json&redirects", function(data){
         FillWikiDisplay(data.parse.text["*"]);
     },
     function(response, asJson){
