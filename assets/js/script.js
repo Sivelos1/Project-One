@@ -76,7 +76,7 @@ var ButtonClick = function(event){
 
     var search = searchBar.val();
     videoPlayer.addClass('u-display-none');
-    Get("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q="+keyword+"&type=video&key="+keys.youtube+"", 
+    Get("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q="+search+"&type=video&key="+keys.youtube+"", 
     function(data){
         var result = data.items[0];
         if(result !== null && result !== undefined){
@@ -84,7 +84,7 @@ var ButtonClick = function(event){
             $(videoPlayer).removeClass('u-display-none');
         }
     })
-    Get("https://en.wikipedia.org/w/api.php?&origin=*&action=parse&page="+search+"&format=json", function(data){
+    Get("https://en.wikipedia.org/w/api.php?&origin=*&action=parse&page="+search+"&format=json&redirects", function(data){
         FillWikiDisplay(data.parse.text["*"]);
     },
     function(response, asJson){
