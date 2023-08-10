@@ -20,8 +20,8 @@ var Get = function(url, onSuccess, onFail){
         console.log("Response recieved! Status code: "+response.status);
         if(response.status === 200){
             var asJson = response.json();
+           
             console.log(asJson);
-            
             return asJson;
             
         }
@@ -30,7 +30,12 @@ var Get = function(url, onSuccess, onFail){
         }
     }).then(function(data){
         console.log(data);
-        onSuccess(data);
+        if(data.hasOwnProperty('error') === true){
+            onFail(null, data);
+        }
+        else{
+            onSuccess(data);
+        }
     });
 }
 
@@ -78,18 +83,20 @@ function onPlayerReady(event) {
   }
 
 function ErrorHandling(response, asJson){
-    videoPlayer.addClass('u-display-none');
-    
     wikiDisplay.empty();
+    var holder1 = $('<p>');
+    holder1.text('Looks like we couldn\'t find what you\'re looking for. Enjoy this video and try again!')
     var holder = $('<p>');
-    var errorMessage = 'Error status '+response.status+'';
+    var errorMessage = 'Error status ';
     if(asJson !== null && asJson !== undefined){
         if(asJson.error !== null && asJson.error !== undefined){
             errorMessage += ("Code: "+asJson.error.code + "; Info: "+asJson.error.info); 
         }
     }
     holder.text(errorMessage);
+    wikiDisplay.append(holder1);
     wikiDisplay.append(holder);
+    videoPlayer.addClass('u-display-none');
 }
 
 var Search = function(search){
