@@ -1,14 +1,14 @@
 # Project-One (SongStories)
 
-##Description
+## Description
 Our project--SongStories-- seeks to inform individuals about an artist before or while we listen to them. A music artist could have been groundbreaking in their genre, but how would we know prior? Understanding an artist's background may enhance our enjoyment of them and enrich our experience. SongStories utilizes both the Wikipedia and Youtube server-side APIs to achieve this effect. Effectively, this allows us to pull up information regarding a song/artist and listen while we learn. The creation of this project helped us learn the utlizations of server-side APIs in an application, as well as wielding a polished CSS frameworks.
 
-##Installation
+## Installation
 To use this application, one must navigate to the webpage and simply begin searching!
 
-##Usage
+## Usage
 
-##Credits
+## Credits
 Collaborators:
 Devin Amlen(https://github.com/Sivelos1)
 Neil Holloway(https://github.com/SporeSun)
@@ -24,7 +24,7 @@ Blaze UI:https://www.blazeui.com/
 Third Party Application:
 ChatGPT
 
-License:
+## License:
 MIT License
 Copyright (c) 2012-2023 Scott Chacon and others
 
