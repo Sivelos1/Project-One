@@ -84,7 +84,7 @@ var ButtonClick = function(event){
             $(videoPlayer).removeClass('u-display-none');
         }
     })
-    Get("https://en.wikipedia.org/w/api.php?&origin=*&action=parse&page="+search+"&format=json", function(data){
+    Get("https://en.wikipedia.org/w/api.php?&origin=*&action=parse&page="+search+"&format=json&redirects", function(data){
         FillWikiDisplay(data.parse.text["*"]);
     },
     function(response, asJson){
