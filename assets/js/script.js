@@ -2,6 +2,9 @@ const keys = {
     youtube: "AIzaSyBK5m152cl5khgr0pnjdjJ8xebqD2Jo8fc"
 }
 
+var storageID = 'SONGSTORIES_lastSearch';
+
+var lastSearch = undefined;
 
 var videoPlayer = $('#video-player');
 
@@ -17,14 +20,22 @@ var Get = function(url, onSuccess, onFail){
         console.log("Response recieved! Status code: "+response.status);
         if(response.status === 200){
             var asJson = response.json();
+           
+            console.log(asJson);
             return asJson;
+            
         }
         else{
             onFail(response, null);
         }
     }).then(function(data){
         console.log(data);
-        onSuccess(data);
+        if(data.hasOwnProperty('error') === true){
+            onFail(null, data);
+        }
+        else{
+            onSuccess(data);
+        }
     });
 }
 
@@ -71,36 +82,62 @@ function onPlayerReady(event) {
     player.stopVideo();
   }
 
-var ButtonClick = function(event){
-    event.preventDefault();
-
-    var search = searchBar.val();
-    videoPlayer.addClass('u-display-none');
-    Get("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q="+keyword+"&type=video&key="+keys.youtube+"", 
-    function(data){
-        var result = data.items[0];
-        if(result !== null && result !== undefined){
-            videoPlayer.attr('src','https://youtube.com/embed/'+result.id.videoId+"?origin=*");
-            $(videoPlayer).removeClass('u-display-none');
-        }
-    })
-    Get("https://en.wikipedia.org/w/api.php?&origin=*&action=parse&page="+search+"&format=json&redirects", function(data){
-        FillWikiDisplay(data.parse.text["*"]);
-    },
-    function(response, asJson){
-        
-        wikiDisplay.empty();
-        var holder = $('<p>');
-        var errorMessage = 'Error status '+response.status+'';
-        if(asJson !== null && asJson !== undefined){
+function ErrorHandling(response, asJson){
+    wikiDisplay.empty();
+    var holder1 = $('<p>');
+    holder1.text('Looks like we couldn\'t find what you\'re looking for. Enjoy this video and try again!')
+    var holder = $('<p>');
+    var errorMessage = 'Error status ';
+    if(asJson !== null && asJson !== undefined){
+        if(asJson.error !== null && asJson.error !== undefined){
             errorMessage += ("Code: "+asJson.error.code + "; Info: "+asJson.error.info); 
         }
-        holder.text(errorMessage);
-        wikiDisplay.append(holder);
+    }
+    holder.text(errorMessage);
+    wikiDisplay.append(holder1);
+    wikiDisplay.append(holder);
+    videoPlayer.addClass('u-display-none');
+}
+
+var Search = function(search){
+    Get("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q="+search+"&type=video&key="+keys.youtube+"", 
+    function(data){
+        if(data !== null && data !== undefined){
+            if(data.items !== null && data.items !== undefined){
+                var result = data.items[0];
+                if(result !== null && result !== undefined){
+                    videoPlayer.attr('src','https://youtube.com/embed/'+result.id.videoId+"?origin=*");
+                    $(videoPlayer).removeClass('u-display-none');
+                }
+            }
+        }
+    }, function(response, asJson){
+        ErrorHandling(response, asJson);
+    })
+    Get("https://en.wikipedia.org/w/api.php?&origin=*&action=parse&page="+search+"&format=json&redirects", function(data){
+        if(data !== undefined && data !== null){
+
+            if(data.parse !== undefined && data.parse !== null){
+                FillWikiDisplay(data.parse.text["*"]);
+                localStorage.setItem(storageID, search);
+            }
+        }
+    },
+    function(response, asJson){
+        ErrorHandling(response, asJson);
     });
 }
 
+var ButtonClick = function(event){
+    event.preventDefault();
+    var search = searchBar.val();
+    videoPlayer.addClass('u-display-none');
+    Search(search);
+}
+
+
 searchBtn.on('click', ButtonClick);
 
-
-var keyword = "Sting";
+if(localStorage.getItem(storageID) !== null && localStorage.getItem(storageID) !== undefined){
+    Search(localStorage.getItem(storageID));
+}
