@@ -7,14 +7,14 @@ Our project--SongStories-- seeks to inform individuals about an artist before or
 To use this application, one must navigate to the webpage and simply begin searching.
 
 ## Usage
-First, go to the search bar and enter an artist or song of your choice. The example here is the funk band Vulfpeck.
-![alt text](assets/images/SearchBar.png)
+First use this link: https://sivelos1.github.io/Song-Stories/. Then, go to the search bar and enter an artist or song of your choice. The example here is the funk band Vulfpeck.
+![An image of the webpage's search bar](assets/images/SearchBar.png)
 
 Once you type and hit enter, both a scrollable Wikipedia page and a playable Youtube video should appear! The video is seen above the search bar.
-![alt text](assets/images/Video.png)
+![Photo of YouTube results](assets/images/Video.png)
 
 The Wikipedia page is below.
-![alt text](assets/images/WikiPage.png)
+![Photo of Wikipedia results](assets/images/WikiPage.png)
 
 Have fun exploring your favorite artist or finding something new!
 
